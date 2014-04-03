@@ -1,0 +1,35 @@
+{
+  "name": "grunt-yet-another-angular-templates",
+  "version": "0.0.0",
+  "description": "Yet Another Angular Templates grunt plugin.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/caiguanhao/grunt-yet-another-angular-templates.git"
+  },
+  "keywords": [
+    "gruntplugin",
+    "grunt",
+    "plugin",
+    "angular",
+    "templates",
+    "templateCache",
+    "ng-template"
+  ],
+  "author": "Cai Guanhao <caiguanhao@gmail.com> (Choi Goon-ho)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/caiguanhao/grunt-yet-another-angular-templates/issues"
+  },
+  "homepage": "https://github.com/caiguanhao/grunt-yet-another-angular-templates",
+  "peerDependencies": {
+    "grunt": "~0.4.0"
+  },
+  "dependencies": {
+    "q": "~1.0.1",
+    "htmlparser2": "~3.7.1"
+  },
+  "files": [
+    "tasks",
+    "LICENSE"
+  ]
+}
