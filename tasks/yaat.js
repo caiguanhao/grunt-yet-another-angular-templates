@@ -11,13 +11,32 @@ module.exports = function(grunt) {
     var options = this.options();
     var target = this.target;
 
+    var keyNameCallback = options.keyNameCallback;
+    if (typeof keyNameCallback !== 'function') {
+      keyNameCallback = function(name){ return name; };
+    }
+
     files.reduce(function(prevFile, curFile) {
       var Templates = {};
+
+      function addTemplate(keyName, content, srcFile) {
+        if (typeof keyName !== 'string' || !keyName) return;
+        keyName = keyNameCallback(keyName);
+        if (typeof keyName !== 'string' || !keyName) return;
+        if (Templates.hasOwnProperty(keyName)) {
+          grunt.log.warn('Templates with ID ' + keyName.cyan +
+            ' in ' + srcFile.cyan + ' already exists. Skipped.');
+          return;
+        }
+        Templates[keyName] = content;
+      }
+
       return prevFile.then(function() {
         return curFile.src.reduce(function(prevSrc, curSrc) {
           return prevSrc.then(function() {
             var content = grunt.file.read(curSrc);
             var currentText;
+            var scriptTagMode = false;
             var deferred = Q.defer();
             var parser = new htmlparser.Parser({
               onopentag: function(name, attribs) {
@@ -30,17 +49,14 @@ module.exports = function(grunt) {
               onclosetag: function(name) {
                 var type = currentAttribs.type;
                 if (name === 'script' && type === 'text/ng-template') {
-                  var id = (currentAttribs.id || '').trim();
-                  if (!id) return;
-                  if (Templates.hasOwnProperty(id)) {
-                    grunt.log.warn('Templates with ID ' + id.cyan +
-                      ' in ' + curSrc.cyan + ' already exists. Skipped.');
-                    return;
-                  }
-                  Templates[id] = currentText;
+                  addTemplate(currentAttribs.id, currentText, curSrc);
+                  scriptTagMode = true;
                 }
               },
               onend: function() {
+                if (scriptTagMode === false) {
+                  addTemplate(curSrc, content, curSrc);
+                }
                 deferred.resolve();
               }
             });
