@@ -77,6 +77,9 @@ grunt.initConfig({
   yaat: {
     MyApp: {
       options: {
+        keyNameCallback: function(name) {
+          return name;
+        },
         module: 'YAAT'
       },
       files: {

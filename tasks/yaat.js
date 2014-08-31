@@ -71,7 +71,7 @@ module.exports = function(grunt) {
         grunt.log.write('Putting Angular templates to ' + file.cyan + '... ');
         var moduleName = target;
         if (typeof options.module === 'string') moduleName = options.module;
-        var tpl = ';' + moduleName;
+        var tpl = ';angular.module(' + JSON.stringify(moduleName) + ')';
         tpl += '.run(["$templateCache",function(a){';
         for (var name in Templates) {
           tpl += 'a.put(' + JSON.stringify(name) + ',';
