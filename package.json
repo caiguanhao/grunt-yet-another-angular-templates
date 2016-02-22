@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/caiguanhao/grunt-yet-another-angular-templates",
   "peerDependencies": {
-    "grunt": "~0.4.0"
+    "grunt": ">=0.4.0"
   },
   "dependencies": {
     "q": "~1.0.1",
